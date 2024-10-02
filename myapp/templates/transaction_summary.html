@@ -1,0 +1,58 @@
+{%extends 'base.html'%}
+{%block main_block%}
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6 mt-5 border border-primary text-center border-5"><h3>Total Expense={{total_expense.total}}</h3></div>
+                <div class="col-3"></div>
+            </div>
+            <form action="">
+                <div class="row mt-3">
+                    <div class="col-5">
+                        <label for="">StartDate</label>
+                        {{form.start_date}}
+                    </div>
+                    <div class="col-5">
+                        <label for="">EndDate</label>
+                        {{form.end_date}}
+                    </div>
+                    <div class="col-2">  <button type="submit" class="mt-4 p-1">Fetch</button></div>
+                </div>
+              
+              
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-2"></div>
+        <div class="col-8">
+                {%csrf_token%}
+            <table class="table mt-4 border table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Payment Method</th>
+                    <th>Action</th>
+                </tr>
+                {%for t in transactions%}
+                <tr>
+                    <td>{{t.title}}</td>
+                    <td>{{t.amount}}</td>
+                    <td>{{t.payment_method}}</td>
+                    <td class="d-flex gap-2">
+                        <a href="{%url 'transaction-edit' t.id%}" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{%url 'transaction-remove' t.id%}" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+{%endblock%}

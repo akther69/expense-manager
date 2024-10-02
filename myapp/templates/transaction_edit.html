@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+{%block main_block%}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <form action="" method="post" class="border border-2 p-4 shadow">
+                {%csrf_token%}
+                <h3 class="text-center my-2">Add Transaction</h3>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Enter Title</label>
+                        {{form.title}}
+                    </div>
+                    <div class="col-6">
+                        <label for="">Enter Amount</label>
+                        {{form.amount}}
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Select Category</label>
+                            {{form.category_object}}
+                        </div>
+                        <div class="col-6">
+                            <label for="">Select payment method</label>
+                            {{form.payment_method}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="">Owner Name</label>
+                            {{form.owner}}
+                        </div>
+                    </div>
+                    <center>
+                        <button type="submit" class="my-2">Add</button>
+                    </center>
+                </div>
+                
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+</div>
+{%endblock%}

@@ -1,0 +1,128 @@
+{%extends 'base.html'%}
+{%block main_block%}
+<div class="container">
+  {%if messages%}
+            {%for m in messages%}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{m}}</strong> You should check in on some of those fields below.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {%endfor%}
+        {%endif%}
+    <div class="row my-2">
+        <div class="col-4"></div>
+        <div class="col-4 border border-3 rounded p-2 text-center border-success">
+            <h4>Total Expense = {{total_expense}}</h4>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div class="row border border-3 mt-5 border-dark">
+        <div class="col-3 border border-dark text-center">
+            CATEGORY SUMMARY
+            {%for cat in category_summary%}
+            <div class="border border-dark p-3 my-5 text-center">
+                {{cat.category_object__name}}={{cat.total}}
+            </div>
+            {%endfor%}
+        </div>
+        <div class="col-3 text-center">
+            Category Chart
+            <canvas id="categorychart"></canvas>
+        </div>
+        <div class="col-3 text-center border border-dark">
+            Payment Summary
+            {%for pay in payment_summary%}
+            <div class="border border-dark p-3 my-5 text-center">
+                {{pay.payment_method}}={{pay.total}}
+            </div>
+            {%endfor%}
+        </div>
+        <div class="col-3 text-center">
+            Payment Chart
+            <canvas id="paymentchart"></canvas>
+        </div>
+    </div>
+</div>
+{%endblock%}
+{%block script_block%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('categorychart');
+  
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: [{%for cat in category_summary%} '{{cat.category_object__name}}', {%endfor%}],
+        datasets: [{
+          label: '',
+          data: [{%for cat in category_summary%} '{{cat.total}}', {%endfor%}],
+          borderWidth: 1,
+          backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+ 
+
+  <!-- payment chart -->
+  const ctx1 = document.getElementById('paymentchart');
+
+  new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: [{%for pay in payment_summary%} '{{pay.payment_method}}', {%endfor%}],
+      datasets: [{
+        label: '',
+        data: [{%for pay in payment_summary%} '{{pay.total}}', {%endfor%}],
+        borderWidth: 1,
+        backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+</script>
+
+{%endblock%}
