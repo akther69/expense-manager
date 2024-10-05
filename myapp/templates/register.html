@@ -25,11 +25,14 @@
               </div>
               <div class="col-md-8">
                 <div class="card-body">
+                  <form action="" method="post">{%csrf_token%}
                     <h1>Register</h1>
                     {{form}}
                     <button type="submit">Register</button>
                     <a href="{%url 'sign-up'%}">Already Exist!</a>
-                </form>
+                  </form>
+                    
+                
                 </div>
               </div>
             </div>
